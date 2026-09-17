@@ -8,7 +8,9 @@ import { POLAR_PRODUCTS, polarClient } from "./polar-client";
 import { postSubscription } from "@/utils/post-subscrition";
 
 export const auth = betterAuth({
-  baseURL: import.meta.env.BETTER_AUTH_URL ?? "http://localhost:4231/en",
+  trustedOrigins: [import.meta.env.BETTER_AUTH_URL],
+  secret: import.meta.env.BETTER_AUTH_SECRET,
+  baseURL: import.meta.env.BETTER_AUTH_URL,
   plugins: [
     polar({
       client: polarClient,
