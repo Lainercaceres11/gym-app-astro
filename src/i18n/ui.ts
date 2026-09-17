@@ -1,0 +1,78 @@
+export const languages = {
+  en: "English",
+  es: "Español",
+};
+
+export const defaultLang = "en";
+
+export const ui = {
+  en: {
+    "home.title": "Astro Pro",
+    "home.subtitle": "Full-stack Astro app with Authentication",
+    "home.welcomeBack": "Welcome back",
+    "home.alreadySignedIn": "You are already signed in.",
+    "home.goToDashboard": "Go to Dashboard",
+    "home.getStarted": "Get Started",
+    "home.getStartedDesc":
+      "Sign in to access your dashboard or create a new account.",
+    "home.signIn": "Sign In",
+    "home.createAccount": "Create Account",
+    "home.features.auth.title": "🔐 Authentication",
+    "home.features.auth.desc":
+      "Secure authentication with better-auth and Prisma",
+    "home.features.db.title": "🗄️ Database",
+    "home.features.db.desc": "PostgreSQL database with Prisma ORM",
+    "home.features.astro.title": "🚀 Astro",
+    "home.features.astro.desc": "Fast, modern web framework with TypeScript",
+    "auth.register.title": "Create Account",
+    "auth.register.name": "Name",
+    "auth.register.email": "Email",
+    "auth.register.password": "Password",
+    "auth.register.submit": "Register",
+    "auth.register.hasAccount": "Already have an account?",
+    "auth.register.signInLink": "Sign in",
+    USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL:
+      "User already exists, use another email",
+    "auth.login.title": "Welcome Back",
+    "auth.login.email": "Email",
+    "auth.login.password": "Password",
+    "auth.login.submit": "Sign In",
+    "auth.login.noAccount": "Don't have an account?",
+    "auth.login.signUpLink": "Sign up",
+    INVALID_EMAIL_OR_PASSWORD: "Invalid email or password",
+  },
+  es: {
+    "home.title": "Astro Pro",
+    "home.subtitle": "Aplicación Astro full-stack con Autenticación",
+    "home.welcomeBack": "Bienvenido de nuevo",
+    "home.alreadySignedIn": "Ya has iniciado sesión.",
+    "home.goToDashboard": "Ir al Panel",
+    "home.getStarted": "Comenzar",
+    "home.getStartedDesc":
+      "Inicia sesión para acceder a tu panel o crea una nueva cuenta.",
+    "home.signIn": "Iniciar Sesión",
+    "home.createAccount": "Crear Cuenta",
+    "home.features.auth.title": "🔐 Autenticación",
+    "home.features.auth.desc": "Autenticación segura con better-auth y Prisma",
+    "home.features.db.title": "🗄️ Base de Datos",
+    "home.features.db.desc": "Base de datos PostgreSQL con Prisma ORM",
+    "home.features.astro.title": "🚀 Astro",
+    "home.features.astro.desc": "Framework web moderno y rápido con TypeScript",
+    "auth.register.title": "Crear Cuenta",
+    "auth.register.name": "Nombre",
+    "auth.register.email": "Email",
+    "auth.register.password": "Contraseña",
+    "auth.register.submit": "Registrar",
+    "auth.register.hasAccount": "¿Ya tienes una cuenta?",
+    "auth.register.signInLink": "Iniciar Sesión",
+    USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL:
+      "El usuario ya existe, usa otro email",
+    "auth.login.title": "Bienvenido de Nuevo",
+    "auth.login.email": "Correo Electrónico",
+    "auth.login.password": "Contraseña",
+    "auth.login.submit": "Iniciar Sesión",
+    "auth.login.noAccount": "¿No tienes una cuenta?",
+    "auth.login.signUpLink": "Regístrate",
+    INVALID_EMAIL_OR_PASSWORD: "Correo electrónico o contraseña inválidos",
+  },
+} as const;

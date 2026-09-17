@@ -1,0 +1,125 @@
+---
+import { getLangFromUrl } from "@/i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const currentPath = Astro.url.pathname;
+const user = Astro.locals.user;
+const isLoggedIn = Boolean(user);
+const localizedHref = (path: string) => `/${lang}${path === "/" ? "/" : path}`;
+
+const links = [
+  { label: "Home", href: localizedHref("/") },
+  { label: "Subscribe", href: localizedHref("/subscribe") },
+  ...(isLoggedIn
+    ? []
+    : [
+        { label: "Login", href: localizedHref("/login") },
+        { label: "Register", href: localizedHref("/register") },
+      ]),
+  { label: "Dashboard", href: localizedHref("/dashboard") },
+  { label: "Admin", href: localizedHref("/admin") },
+];
+---
+
+<nav
+  class="sticky top-0 z-40 border-b border-white/10 bg-slate-950/80 backdrop-blur-xl"
+>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between py-4">
+      <a href={lang === "en" ? "/en/" : "/es/"} class="flex items-center gap-3">
+        <div
+          class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-400 text-lg font-black text-slate-950 shadow-lg shadow-emerald-500/30"
+        >
+          G
+        </div>
+        <div>
+          <p
+            class="text-[10px] font-bold uppercase tracking-[0.24em] text-emerald-300"
+          >
+            My Gym
+          </p>
+          <p class="text-sm font-semibold text-white">Access Club</p>
+        </div>
+      </a>
+
+      <div
+        class="hidden items-center gap-2 rounded-full border border-white/10 bg-white/5 p-1 md:flex"
+      >
+        {
+          links.map((link) => {
+            const isActive = currentPath === link.href;
+
+            return (
+              <a
+                href={link.href}
+                class={`rounded-full px-4 py-2 text-sm font-medium transition ${
+                  isActive
+                    ? "bg-emerald-400 text-slate-950 shadow-lg shadow-emerald-500/30"
+                    : "text-slate-300 hover:bg-white/5 hover:text-white"
+                }`}
+              >
+                {link.label}
+              </a>
+            );
+          })
+        }
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button
+          id="menu-toggle"
+          type="button"
+          aria-label="Abrir menú"
+          aria-expanded="false"
+          class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-100 md:hidden"
+        >
+          <span class="sr-only">Toggle menu</span>
+          <span class="flex flex-col gap-1.5">
+            <span class="block h-0.5 w-5 rounded-full bg-current"></span>
+            <span class="block h-0.5 w-5 rounded-full bg-current"></span>
+            <span class="block h-0.5 w-5 rounded-full bg-current"></span>
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <div
+      id="mobile-menu"
+      class="hidden border-t border-white/10 bg-slate-950/95 py-3 md:hidden"
+    >
+      <div class="flex flex-col gap-2">
+        {
+          links.map((link) => {
+            const isActive = currentPath === link.href;
+
+            return (
+              <a
+                href={link.href}
+                class={`rounded-xl px-3 py-2 text-sm font-medium transition ${
+                  isActive
+                    ? "bg-emerald-400 text-slate-950"
+                    : "text-slate-200 hover:bg-white/5"
+                }`}
+              >
+                {link.label}
+              </a>
+            );
+          })
+        }
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+  const toggleButton = document.getElementById("menu-toggle");
+  const mobileMenu = document.getElementById("mobile-menu");
+
+  if (toggleButton && mobileMenu) {
+    toggleButton.addEventListener("click", () => {
+      const isOpen = !mobileMenu.classList.contains("hidden");
+      mobileMenu.classList.toggle("hidden", isOpen);
+      toggleButton.setAttribute("aria-expanded", String(!isOpen));
+    });
+  }
+</script>

@@ -1,0 +1,37 @@
+---
+import { languages } from "@/i18n/ui";
+import { getLangFromUrl } from "@/i18n/utils";
+
+const currentPath = Astro.url.pathname;
+const lang = getLangFromUrl(Astro.url);
+const basePath = currentPath.replace(/^\/(en|es)(?=\/|$)/, "") || "/";
+const buildLocalePath = (code: string) =>
+  `/${code}${basePath === "/" ? "/" : basePath}`;
+---
+
+<div class="fixed right-2 top-24 md:right-4 md:top-4 z-50">
+  <div class="relative inline-block text-left">
+    <select
+      id="switcher"
+      class="block w-24 rounded-full border border-white/10 bg-slate-900/85 px-3 py-2 text-xs font-semibold text-slate-100 shadow-lg shadow-slate-950/40 ring-0 backdrop-blur-sm transition focus:outline-none focus:ring-2 focus:ring-emerald-400 sm:text-sm"
+    >
+      {
+        Object.entries(languages).map(([code, name]) => (
+          <option value={buildLocalePath(code)} selected={lang === code}>
+            {name}
+          </option>
+        ))
+      }
+    </select>
+  </div>
+
+  <script>
+    const select = document.getElementById("switcher");
+    if (select) {
+      select.addEventListener("change", (e) => {
+        const target = e.target as HTMLSelectElement;
+        window.location.href = target.value;
+      });
+    }
+  </script>
+</div>

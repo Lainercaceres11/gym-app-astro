@@ -1,0 +1,217 @@
+---
+import { getLangFromUrl } from "@/i18n/utils";
+import Layout from "@/layouts/Layout.astro";
+
+const lang = getLangFromUrl(Astro.url);
+const loginHref = `/${lang}/login`;
+---
+
+<Layout>
+  <section
+    class="min-h-screen overflow-hidden bg-slate-950 text-slate-100 space-y-4"
+  >
+    <div
+      class="pointer-events-none absolute inset-x-0 top-0 h-128 bg-[radial-gradient(circle_at_50%_-10%,rgba(16,185,129,0.22),transparent_60%)]"
+    >
+    </div>
+
+    <div class="relative mx-auto max-w-6xl px-6 py-16 sm:py-24 space-y-4">
+      <header class="mx-auto max-w-2xl text-center">
+        <p
+          class="text-xs font-black uppercase tracking-[0.3em] text-emerald-300"
+        >
+          Simple pricing
+        </p>
+        <h1
+          class="mt-5 text-4xl font-black tracking-tight text-white sm:text-6xl"
+        >
+          Choose your momentum.
+        </h1>
+        <p class="mt-6 text-base leading-7 text-slate-400 sm:text-lg">
+          Everything you need to turn a good idea into a polished, dependable
+          product.
+        </p>
+      </header>
+
+      <section
+        class="mx-auto max-w-7xl mt-14 grid grid-cols-2 gap-6"
+        aria-label="Subscription plans"
+      >
+        <article
+          class="flex flex-col rounded-3xl border border-white/10 bg-white/5 p-8 shadow-2xl shadow-black/20 sm:p-10"
+        >
+          <div>
+            <p
+              class="text-sm font-bold uppercase tracking-[0.2em] text-slate-400"
+            >
+              Basic
+            </p>
+            <div class="mt-6 flex items-end gap-2">
+              <span class="text-5xl font-black tracking-tight text-white"
+                >$20</span
+              >
+              <span class="mb-2 text-sm text-slate-500">/ month</span>
+            </div>
+            <p class="mt-5 min-h-12 text-sm leading-6 text-slate-400">
+              The essential toolkit for focused solo builders.
+            </p>
+          </div>
+
+          <ul
+            class="mt-8 space-y-4 border-t border-white/10 pt-8 text-sm text-slate-300"
+          >
+            <li class="flex gap-3">
+              <span class="text-emerald-300">&#10003;</span> 3 active projects
+            </li>
+            <li class="flex gap-3">
+              <span class="text-emerald-300">&#10003;</span> Core authentication
+            </li>
+            <li class="flex gap-3">
+              <span class="text-emerald-300">&#10003;</span> Community support
+            </li>
+            <li class="flex gap-3">
+              <span class="text-emerald-300">&#10003;</span> 5 GB secure storage
+            </li>
+          </ul>
+
+          <button
+            id="plan-basic-button"
+            class="mt-10 block rounded-xl border border-white/15 px-5 py-3.5 text-center text-sm font-black text-white transition hover:border-emerald-300/50 hover:bg-white/10"
+          >
+            Start with Basic
+          </button>
+        </article>
+
+        <article
+          class="relative flex flex-col rounded-3xl border border-emerald-300/50 bg-emerald-400 p-8 text-slate-950 shadow-2xl shadow-emerald-950/40 sm:p-10"
+        >
+          <div
+            class="absolute right-6 top-6 rounded-full bg-slate-950 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.18em] text-emerald-300"
+          >
+            Most popular
+          </div>
+          <div>
+            <p
+              class="text-sm font-bold uppercase tracking-[0.2em] text-emerald-950/70"
+            >
+              Pro
+            </p>
+            <div class="mt-6 flex items-end gap-2">
+              <span class="text-5xl font-black tracking-tight">$40</span>
+              <span class="mb-2 text-sm text-emerald-950/70">/ month</span>
+            </div>
+            <p class="mt-5 min-h-12 text-sm leading-6 text-emerald-950/75">
+              More power, more room, and less friction for growing teams.
+            </p>
+          </div>
+
+          <ul
+            class="mt-8 space-y-4 border-t border-emerald-950/15 pt-8 text-sm text-emerald-950/85"
+          >
+            <li class="flex gap-3">
+              <span class="font-black">&#10003;</span> Unlimited projects
+            </li>
+            <li class="flex gap-3">
+              <span class="font-black">&#10003;</span> Advanced authentication
+            </li>
+            <li class="flex gap-3">
+              <span class="font-black">&#10003;</span> Priority support
+            </li>
+            <li class="flex gap-3">
+              <span class="font-black">&#10003;</span> 100 GB secure storage
+            </li>
+          </ul>
+
+          <button
+            id="plan-pro-button"
+            class="mt-10 p-4 block rounded-xl bg-slate-950 px-5 py-3.5 text-center text-sm font-black text-white transition hover:bg-slate-800"
+          >
+            Start with Pro
+          </button>
+        </article>
+      </section>
+
+      <p class="mt-10 text-center text-sm text-slate-500">
+        Already have an account?
+        <a
+          href={loginHref}
+          class="font-bold text-emerald-300 hover:text-emerald-200"
+        >
+          Sign in
+        </a>
+      </p>
+    </div>
+  </section>
+
+  <script>
+    import prisma from "@/lib/prisma";
+    import { authClient } from "@/lib/auth-client";
+    import { actions } from "astro:actions";
+    import { getLangFromUrl } from "@/i18n/utils";
+    const currentLang = getLangFromUrl(new URL(window.location.href));
+    const planBasicButton = document.getElementById(
+      "plan-basic-button",
+    ) as HTMLButtonElement;
+    const planProButton = document.getElementById(
+      "plan-pro-button",
+    ) as HTMLButtonElement;
+
+    planBasicButton.addEventListener("click", async () => {
+      const session = await authClient.getSession();
+      const userId = session?.data?.user?.id;
+
+      if (!userId) {
+        console.error("Usuario no autenticado");
+        return;
+      }
+
+      const successUrl = `${window.location.origin}/${currentLang}/dashboard`;
+      try {
+        const { data, error } = await actions.createCheckout({
+          plan: "basic",
+          userId,
+          successUrl,
+        });
+
+        if (error) {
+          console.error(error);
+        }
+
+        if (data && data.url) {
+          window.location.href = data.url;
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    });
+
+    planProButton.addEventListener("click", async () => {
+      const session = await authClient.getSession();
+      const userId = session?.data?.user?.id;
+
+      if (!userId) {
+        console.error("Usuario no autenticado");
+        return;
+      }
+
+      const successUrl = `${window.location.origin}/${currentLang}/dashboard`;
+      try {
+        const { data, error } = await actions.createCheckout({
+          plan: "pro",
+          userId,
+          successUrl,
+        });
+
+        if (error) {
+          console.error(error);
+        }
+
+        if (data && data.url) {
+          window.location.href = data.url;
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    });
+  </script>
+</Layout>

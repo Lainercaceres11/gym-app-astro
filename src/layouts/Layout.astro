@@ -1,0 +1,24 @@
+---
+import { ClientRouter } from "astro:transitions";
+import "../styles/global.css";
+import LangPicker from "@/components/LangPicker.astro";
+import Navbar from "@/components/Navbar.astro";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
+    <ClientRouter />
+    <title>Gym App</title>
+  </head>
+  <body class="bg-slate-950 text-slate-100 antialiased">
+    <!-- <LangPicker /> -->
+    <Navbar />
+    <slot />
+  </body>
+</html>

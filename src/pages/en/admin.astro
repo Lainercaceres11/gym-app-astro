@@ -1,0 +1,16 @@
+---
+import Admin from "@/components/pages/Admin.astro";
+
+import { getLangFromUrl } from "@/i18n/utils";
+import { Role } from "../../../prisma/generated/enums";
+const lang = getLangFromUrl(Astro.url);
+
+const user = Astro.locals.user;
+const session = Astro.locals.session;
+
+if (!user || !session || user.role !== Role.ADMIN) {
+  return Astro.redirect(`/${lang}/login`);
+}
+---
+
+<Admin />
