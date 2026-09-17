@@ -1,23 +1,19 @@
 ---
-import { getLangFromUrl } from "@/i18n/utils";
-
-const lang = getLangFromUrl(Astro.url);
 const currentPath = Astro.url.pathname;
 const user = Astro.locals.user;
 const isLoggedIn = Boolean(user);
-const localizedHref = (path: string) => `/${lang}${path === "/" ? "/" : path}`;
 
 const links = [
-  { label: "Home", href: localizedHref("/") },
-  { label: "Subscribe", href: localizedHref("/subscribe") },
+  { label: "Home", href: "/" },
+  { label: "Subscribe", href: "/subscribe" },
   ...(isLoggedIn
     ? []
     : [
-        { label: "Login", href: localizedHref("/login") },
-        { label: "Register", href: localizedHref("/register") },
+        { label: "Login", href: "/login" },
+        { label: "Register", href: "/register" },
       ]),
-  { label: "Dashboard", href: localizedHref("/dashboard") },
-  { label: "Admin", href: localizedHref("/admin") },
+  { label: "Dashboard", href: "/dashboard" },
+  { label: "Admin", href: "/admin" },
 ];
 ---
 
@@ -26,7 +22,7 @@ const links = [
 >
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between py-4">
-      <a href={lang === "en" ? "/en/" : "/es/"} class="flex items-center gap-3">
+      <a href="/" class="flex items-center gap-3">
         <div
           class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-400 text-lg font-black text-slate-950 shadow-lg shadow-emerald-500/30"
         >

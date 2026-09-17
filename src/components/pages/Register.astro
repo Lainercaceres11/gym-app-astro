@@ -1,13 +1,8 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import { getLangFromUrl, useTranslations } from "@/i18n/utils";
-const lang = getLangFromUrl(Astro.url);
-const t = useTranslations(lang);
-
-const errorTranslation = t("USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL");
 
 const clientErrorTranslations = {
-  USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL: errorTranslation,
+  USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL: "User already exists, use another email",
 };
 ---
 
@@ -37,10 +32,10 @@ const clientErrorTranslations = {
             </svg>
           </span>
           <h1 class="mt-6 text-3xl font-bold text-white">
-            {t("auth.register.title")}
+            Create Account
           </h1>
           <p class="mt-2 text-sm text-slate-300">
-            {t("home.getStartedDesc")}
+            Sign in to access your dashboard or create a new account.
           </p>
         </div>
 
@@ -110,12 +105,12 @@ const clientErrorTranslations = {
         </div>
 
         <p class="mt-6 text-center text-sm text-slate-300">
-          {t("auth.register.hasAccount")}
+          Already have an account?
           <a
-            href={`/${lang}/login`}
+            href="/login"
             class="ml-1 font-semibold text-emerald-300 hover:text-emerald-200"
           >
-            {t("auth.register.signInLink")}
+            Sign in
           </a>
         </p>
       </div>
@@ -124,8 +119,6 @@ const clientErrorTranslations = {
 
   <script>
     import { authClient } from "@/lib/auth-client";
-    import { getLangFromUrl } from "@/i18n/utils";
-    const currentLang = getLangFromUrl(new URL(window.location.href));
     const form = document.getElementById("register-form") as HTMLFormElement;
     const errorMessage = document.getElementById(
       "error-message",
@@ -146,7 +139,7 @@ const clientErrorTranslations = {
           name,
           email,
           password,
-          callbackURL: `${window.location.origin}/${currentLang}/dashboard`,
+          callbackURL: `${window.location.origin}/dashboard`,
         });
         if (error) {
           const translatedError = clientErrorTranslations[error.code as string];
@@ -156,7 +149,7 @@ const clientErrorTranslations = {
         }
 
         if (data) {
-          window.location.href = `/${currentLang}/email-verification`;
+          window.location.href = "/email-verification";
         }
       } catch (error) {
         const message =

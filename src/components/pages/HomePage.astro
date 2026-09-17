@@ -1,9 +1,5 @@
 ---
-import { getLangFromUrl, useTranslations } from "@/i18n/utils";
 import Layout from "@/layouts/Layout.astro";
-
-const lang = getLangFromUrl(Astro.url);
-const t = useTranslations(lang);
 ---
 
 <Layout>
@@ -41,13 +37,13 @@ const t = useTranslations(lang);
 
             <div class="mt-10 flex flex-wrap items-center gap-4">
               <a
-                href={`/${lang}/register`}
+                href="/register"
                 class="rounded-2xl bg-emerald-400 px-8 py-4 text-sm font-black text-slate-950 shadow-xl shadow-emerald-500/25 transition hover:bg-emerald-300"
               >
                 Create account
               </a>
               <a
-                href={`/${lang}/login`}
+                href="/login"
                 class="rounded-2xl border border-white/15 px-8 py-4 text-sm font-black text-white transition hover:bg-white/10"
               >
                 Sign in
