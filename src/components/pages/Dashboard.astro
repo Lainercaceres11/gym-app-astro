@@ -200,15 +200,25 @@ type PlanType = typeof Plan.BASIC | typeof Plan.PRO;
 
   <script>
     import { authClient } from "@/lib/auth-client";
-    import { getLangFromUrl } from "@/i18n/utils";
-    const currentLang = getLangFromUrl(new URL(window.location.href));
-    const logoutBtn = document.getElementById("logout") as HTMLButtonElement;
+
+    const logoutBtn = document.getElementById(
+      "logout",
+    ) as HTMLButtonElement | null;
+
+    if (!logoutBtn) {
+      throw new Error("Logout button not found");
+    }
+
     logoutBtn.addEventListener("click", async () => {
       try {
-        await authClient.signOut();
-        window.location.href = `/${currentLang}/`;
+        await authClient.signOut({
+          callbackURL: "/",
+          disableRedirect: true,
+        });
       } catch (error) {
-        console.error(error);
+        console.error("Logout failed:", error);
+      } finally {
+        window.location.replace("/");
       }
     });
   </script>
